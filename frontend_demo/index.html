@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Product Classifier - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>Smart Product Classifier</h1>
+            </div>
+            <div class="subtitle">
+                AI-powered product classification for e-commerce
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-card">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h3>Upload Product Image</h3>
+                            <p>Drag and drop an image here, or click to select</p>
+                            <input type="file" id="fileInput" accept="image/*" hidden>
+                            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                                Choose File
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- URL Input -->
+                    <div class="url-input-section">
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+                        <div class="url-input-group">
+                            <input type="url" id="imageUrl" placeholder="Enter image URL..." class="url-input">
+                            <button id="classifyUrlBtn" class="classify-btn">
+                                <i class="fas fa-search"></i>
+                                Classify URL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Preview and Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="preview-card">
+                    <h3><i class="fas fa-image"></i> Image Preview</h3>
+                    <div class="image-preview">
+                        <img id="previewImage" alt="Preview">
+                        <div class="image-info" id="imageInfo"></div>
+                    </div>
+                </div>
+
+                <div class="predictions-card">
+                    <h3><i class="fas fa-chart-bar"></i> Predictions</h3>
+                    <div class="predictions-list" id="predictionsList">
+                        <!-- Predictions will be inserted here -->
+                    </div>
+                    <div class="processing-info" id="processingInfo"></div>
+                </div>
+            </section>
+
+            <!-- Loading Section -->
+            <section class="loading-section" id="loadingSection" style="display: none;">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Analyzing image...</p>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section" id="errorSection" style="display: none;">
+                <div class="error-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Error</h3>
+                    <p id="errorMessage"></p>
+                    <button onclick="resetApp()" class="retry-btn">Try Again</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2>Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-lightning-bolt"></i>
+                    <h4>Fast Processing</h4>
+                    <p>Get results in under 200ms with our optimized neural network</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-accuracy"></i>
+                    <h4>High Accuracy</h4>
+                    <p>92.4% top-1 accuracy across 12+ product categories</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h4>Multiple Categories</h4>
+                    <p>Electronics, clothing, furniture, books, toys, and more</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cloud"></i>
+                    <h4>API Ready</h4>
+                    <p>Production-ready REST API with comprehensive documentation</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Info Section -->
+        <section class="api-section">
+            <h2>API Endpoints</h2>
+            <div class="api-grid">
+                <div class="api-card">
+                    <div class="method post">POST</div>
+                    <div class="endpoint">/predict</div>
+                    <div class="description">Single image classification</div>
+                </div>
+                <div class="api-card">
+                    <div class="method post">POST</div>
+                    <div class="endpoint">/predict/batch</div>
+                    <div class="description">Batch image classification (up to 20 images)</div>
+                </div>
+                <div class="api-card">
+                    <div class="method post">POST</div>
+                    <div class="endpoint">/predict/url</div>
+                    <div class="description">Classify image from URL</div>
+                </div>
+                <div class="api-card">
+                    <div class="method get">GET</div>
+                    <div class="endpoint">/health</div>
+                    <div class="description">Service health check</div>
+                </div>
+            </div>
+            <div class="api-links">
+                <a href="/docs" class="api-link" target="_blank">
+                    <i class="fas fa-book"></i>
+                    API Documentation
+                </a>
+                <a href="/redoc" class="api-link" target="_blank">
+                    <i class="fas fa-file-alt"></i>
+                    ReDoc Documentation
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Smart Product Classifier</h4>
+                    <p>Production-ready Computer Vision API for real-time e-commerce product classification.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul>
+                        <li>PyTorch & TorchVision</li>
+                        <li>FastAPI & Uvicorn</li>
+                        <li>OpenCV & PIL</li>
+                        <li>Docker & Redis</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Model Details</h4>
+                    <ul>
+                        <li>Architecture: ResNet-18</li>
+                        <li>Classes: 12 categories</li>
+                        <li>Accuracy: 92.4% (top-1)</li>
+                        <li>Inference: ~160ms</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Stanley Ndaba. Built with ❤️ for the ML community.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

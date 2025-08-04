@@ -1,0 +1,131 @@
+development:
+  api:
+    host: "0.0.0.0"
+    port: 8000
+    debug: true
+    reload: true
+    workers: 1
+  
+  model:
+    path: "saved_models/best_model.pth"
+    device: "cpu"
+    confidence_threshold: 0.5
+    batch_size_limit: 20
+    classes:
+      - "electronics"
+      - "clothing"
+      - "furniture"
+      - "books"
+      - "toys"
+      - "sports"
+      - "beauty"
+      - "home_garden"
+      - "automotive"
+      - "health"
+      - "food"
+      - "jewelry"
+  
+  data:
+    max_file_size: 10485760  # 10MB
+    allowed_extensions: ["jpg", "jpeg", "png", "bmp", "tiff"]
+    image_size: [224, 224]
+  
+  rate_limiting:
+    enabled: false
+    requests_per_minute: 100
+  
+  logging:
+    level: "DEBUG"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  redis:
+    enabled: false
+    host: "localhost"
+    port: 6379
+    db: 0
+
+production:
+  api:
+    host: "0.0.0.0"
+    port: 8000
+    debug: false
+    reload: false
+    workers: 4
+  
+  model:
+    path: "saved_models/best_model.pth"
+    device: "cpu"
+    confidence_threshold: 0.5
+    batch_size_limit: 20
+    classes:
+      - "electronics"
+      - "clothing"
+      - "furniture"
+      - "books"
+      - "toys"
+      - "sports"
+      - "beauty"
+      - "home_garden"
+      - "automotive"
+      - "health"
+      - "food"
+      - "jewelry"
+  
+  data:
+    max_file_size: 10485760  # 10MB
+    allowed_extensions: ["jpg", "jpeg", "png", "bmp", "tiff"]
+    image_size: [224, 224]
+  
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+  
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  redis:
+    enabled: true
+    host: "redis"
+    port: 6379
+    db: 0
+
+training:
+  data:
+    train_dir: "data/raw/train"
+    val_dir: "data/raw/val"
+    test_dir: "data/raw/test"
+    batch_size: 32
+    num_workers: 4
+    shuffle: true
+  
+  model:
+    architecture: "resnet18"
+    pretrained: true
+    num_classes: 12
+    dropout: 0.5
+  
+  optimizer:
+    type: "adam"
+    learning_rate: 0.001
+    weight_decay: 0.0001
+  
+  scheduler:
+    type: "step"
+    step_size: 10
+    gamma: 0.1
+  
+  training:
+    epochs: 50
+    early_stopping_patience: 10
+    save_best_only: true
+    validation_split: 0.2
+  
+  augmentation:
+    rotation: 15
+    horizontal_flip: 0.5
+    brightness: 0.2
+    contrast: 0.2
+    normalize:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
